@@ -8,7 +8,22 @@ Simulation::Simulation(Car& car, World& world) {
 Simulation::~Simulation() {}
 
 void Simulation::Play(int porcentage, int max_time) {
-  world_.Obstacule_Random(porcentage); 
+  bool obstacule;
+  std::string file_name;  
+  
+  std::cout << "Obstaculos --> Manual (0) - Aleatorio(1) : "; 
+  std::cin >> obstacule; 
+  if (obstacule) {
+    std::cout << "Porcentaje : "; 
+    std::cin >> porcentage;
+    world_.Obstacule_Random(porcentage);  
+  } else {
+    std::cout << "Nombre/Ubicacion del fichero: "; 
+    std::cin >> file_name; 
+    world_.Obstacule_Manual(file_name); 
+  }
+  
+  /*
   for (unsigned int timer = 0; timer <= max_time; timer++)
   {
     world_.Clear(); 
@@ -18,6 +33,15 @@ void Simulation::Play(int porcentage, int max_time) {
     Rute(); 
     system("pause"); 
   }
+  */
+
+  world_.Clear(); 
+  std::cout << "SIMULATION" << "\n"; 
+  world_.Print_World(car_.Get_Position());
+  world_.Counter_Obstacules();  
+  Rute(); 
+  system("pause");
+
   return; 
 }
 

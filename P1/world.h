@@ -2,6 +2,7 @@
 #define _WORLD_H
 
 #include "cell.h"
+#include <fstream>
 
 typedef std::vector<std::vector<Cell>> matrix_cell; 
 
@@ -13,7 +14,8 @@ class World {
 
     Cell Get_Cell(Position pos); 
 
-    void Obstacule_Random(int porcentage); 
+    void Obstacule_Random(int porcentage);
+    void Obstacule_Manual(std::string file_name);  
 
     bool Are_Obstacules(Position position); 
     bool Are_Visited(Position position); 
@@ -27,6 +29,7 @@ class World {
   private: 
     int rows_; 
     int columns_; 
+    int obstacules_; 
     matrix_cell board_; 
 }; 
 

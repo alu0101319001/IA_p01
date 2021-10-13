@@ -4,10 +4,12 @@ World::World() {}
 
 World::World(const int rows, const int columns) {
   if ((rows > 500) || (columns > 500) || (rows < 0) || (columns < 0)) {
-    std::cout << "Error : size not allowed" << std::endl; 
+    std::cout << "Error : size not allowed" << std::endl;
+    exit(1);  
   } else {
     columns_ = columns + 2; 
     rows_ = rows + 2; 
+    obstacules_ = 0; 
     Create_Board(); 
   }
 }
@@ -48,8 +50,41 @@ void World::Obstacule_Random(int porcentage) {
     } else {
       //board_[random_x][random_y].Change_State(obstacule); 
     }
-    board_[random_x][random_y].Change_State(obstacule); 
+    board_[random_x][random_y].Change_State(obstacule);
+    obstacules_ = i;   
   }
+  return; 
+}
+
+void World::Obstacule_Manual(std::string file_name) {
+  std::ifstream file; 
+  int aux;  
+
+  file.open(file_name,std::ios::in); 
+
+  if (file.fail()) {
+    std::cout << "ERROR : The file could not be opened" << std::endl; 
+    exit(1); 
+  }
+
+  file >> aux; 
+  obstacules_ = aux; 
+
+  for (int i = 0; i < obstacules_; i++) {
+    int x, y; 
+    file >> x;
+    file >> y;
+    if ((x < 0) || (x > rows_) || (y < 0) || (y > columns_)) {
+      std::cout << "ERROR : Invalid obstacle position --> (" << x << "," << y << ")" << std::endl; 
+      std::cout << "RESOLUTION : Obstacle ignored" << std::endl; 
+      system("pause"); 
+
+    } else {
+      board_[x][y].Change_State(obstacule);      
+    }
+  }
+
+  file.close(); 
   return; 
 }
 
@@ -89,16 +124,7 @@ void World::Print_World(Position object) {
 }
 
 void World::Counter_Obstacules() {
-  int obstacounter; 
-
-  for (int i = 0; i < rows_; i++) {
-    for (int j = 0; j < columns_; j++) {
-      if (board_[i][j].Get_State() == obstacule) {
-        obstacounter++; 
-      }
-    }
-  }
-  std::cout << obstacounter << std::endl; 
+  std::cout << obstacules_ << std::endl; 
   return; 
 }
 

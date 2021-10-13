@@ -2,25 +2,32 @@
 
 int main() {
 
-  int filas = 20, columnas = 40; 
+  int filas = 30, columnas = 25; 
   unsigned int max_time = 100; 
   int porcentage = 30;
-  int x,y; 
+  int x = 10 , y = 15;
+  int z = 20 , w = 20;  
 
-  // Entrada por consola 
-  std::cout << "Introduzca numero de filas: "; 
+  /* Entrada por consola 
+  std::cout << "DATOS DE ENTRADA" << std::endl; 
+  std::cout << "Filas: "; 
   std::cin >> filas; 
-  std::cout << "Introduzca numero de columnas: "; 
+  std::cout << "Columnas: "; 
   std::cin >> columnas; 
-  std::cout << "Introduzca posicion inicial (x,y): " << std::endl;  
-  std::cout << "x : "; 
-  std::cin >> x; 
-  std::cout << "y : "; 
-  std::cin >> y; 
-  std::cout << "Introducir porcentaje de obstaculos: "; 
-  std::cin >> porcentage; 
-
+  std::cout << "Posicion inicial: " << std::endl; 
+  std::cout << "\tx: ";  
+  std::cin >> x;
+  std::cout << "\ty: ";  
+  std::cin >> y;   
+  std::cout << "Posicion final:" << std::endl; 
+  std::cout << "\tx: ";  
+  std::cin >> z;
+  std::cout << "\ty: ";  
+  std::cin >> w;  
+  */
+ 
   Position start(x,y); 
+  Position end(z,w);
   Car taxi(start); 
   World world(filas,columnas); 
   Simulation Game(taxi, world);

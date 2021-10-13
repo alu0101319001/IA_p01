@@ -47,7 +47,7 @@ char Cell::Print_Cell() {
   } else if (state_ == empty) {
     return ' '; 
   } else if (state_ == obstacule) {
-    return ':'; 
+    return '#'; 
   } else if (state_ == wall) {
     return '+'; 
   } 

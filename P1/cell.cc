@@ -18,7 +18,7 @@ void Cell::Set_Position_Cell(Position new_position) {
 }
 
 void Cell::Change_State(States new_state) {
-  assert(new_state >= 0 && new_state < 5); 
+  assert(new_state >= 0 && new_state < 9); 
   state_ = new_state; 
   return; 
 }
@@ -41,15 +41,33 @@ void Cell::Desactivate() {
 
 char Cell::Print_Cell() {
   if (Is_Used()) {
-    return 'A'; 
+    char ob = 169; 
+    return ob; 
   } else if (state_ == visited) {
-    return 'a';   
+    return 'x';   
   } else if (state_ == empty) {
     return ' '; 
   } else if (state_ == obstacule) {
-    return '#'; 
-  } else if (state_ == wall) {
-    return '+'; 
+    char ob = 219; 
+    return ob; 
+  } else if (state_ == wall_v) {
+    char ob = 186; 
+    return ob; 
+  } else if (state_ == wall_h) {
+    char ob = 205;
+    return ob; 
+  } else if (state_ == wall_ene) {
+    char ob = 187;
+    return ob; 
+  } else if (state_ == wall_ese) {
+    char ob = 188;
+    return ob; 
+  } else if (state_ == wall_eno) {
+    char ob = 201;
+    return ob; 
+  } else if (state_ == wall_eso) {
+    char ob = 200;
+    return ob; 
   } 
 
   return 'E'; 

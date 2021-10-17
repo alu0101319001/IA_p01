@@ -20,13 +20,19 @@ void World::Create_Board() {
     board_[i].resize(columns_); 
   }
 
-  for(int i = 0; i < rows_; i++) {
-    board_[i][0].Change_State(wall); 
-    board_[i][columns_-1].Change_State(wall); 
+  // Esquinas
+  board_[0][0].Change_State(wall_eno); 
+  board_[0][columns_-1].Change_State(wall_ene); 
+  board_[rows_ - 1][0].Change_State(wall_eso); 
+  board_[rows_ - 1][columns_ - 1].Change_State(wall_ese); 
+
+  for(int i = 1; i < rows_ - 1; i++) {
+    board_[i][0].Change_State(wall_v); 
+    board_[i][columns_-1].Change_State(wall_v); 
   }
   for (int j = 1; j < columns_ - 1; j++) {
-    board_[0][j].Change_State(wall); 
-    board_[rows_ - 1][j].Change_State(wall); 
+    board_[0][j].Change_State(wall_h); 
+    board_[rows_ - 1][j].Change_State(wall_h); 
   } 
 
   return;

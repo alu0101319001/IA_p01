@@ -4,7 +4,7 @@
 
 #include "position.h"
 
-enum States {empty, obstacule, wall, visited}; 
+enum States {empty, obstacule, wall_v, wall_h, wall_eno, wall_ene, wall_ese, wall_eso, visited}; 
 
 class Cell {
   public:

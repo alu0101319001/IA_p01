@@ -16,6 +16,7 @@ class Simulation {
     World world_; 
 
     void Rute(); 
+    void Edit_Terminal(); 
 }; 
 
 #endif

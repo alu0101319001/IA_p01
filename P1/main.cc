@@ -2,7 +2,7 @@
 
 int main() {
 
-  int filas = 30, columnas = 25; 
+  int filas = 500, columnas = 500; 
   unsigned int max_time = 100; 
   int porcentage = 30;
   int x = 10 , y = 15;

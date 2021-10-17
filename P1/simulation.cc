@@ -35,7 +35,8 @@ void Simulation::Play(int porcentage, int max_time) {
   }
   */
 
-  world_.Clear(); 
+  //world_.Clear();
+  Edit_Terminal();  
   std::cout << "SIMULATION" << "\n"; 
   world_.Print_World(car_.Get_Position());
   world_.Counter_Obstacules();  
@@ -59,11 +60,17 @@ void Simulation::Rute() {
 
   if (counter == 8) {
     std::cout << "Imposible Route" << std::endl; 
-  } else if (world_.Get_Cell(next_car).Get_State() == wall) {
+  } else if ((world_.Get_Cell(next_car).Get_State() == wall_v) || (world_.Get_Cell(next_car).Get_State() == wall_h)) {
     std::cout << "World limit reached: response protocol not configured." << std::endl; 
     std::cout << "Answer: hold position." << std::endl; 
   } else {
    car_.Move();            
   }
+  return; 
+}
+
+void Simulation::Edit_Terminal() {
+  system("COLOR F"); 
+  system("MODE 1000,1000"); 
   return; 
 }

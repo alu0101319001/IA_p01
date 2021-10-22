@@ -1,21 +1,46 @@
 #ifndef _SIMULATION_H
 #define _SIMULATION_H
 
-#include "car.h"
 #include "world.h"
 
 class Simulation {
   public: 
-    Simulation(Car& car, World& World); 
+    Simulation(World& World, Position start, Position end); 
     ~Simulation(); 
 
-    void Play(int porcentage, int max_time); 
+    void Play(); 
+    void Test(); 
 
   private: 
-    Car car_; 
     World world_; 
+    int counter_id_ = 2;
+    Position start_; 
+    Position end_;
+    std::list<Cell> open_list_; 
+    std::list<Cell> close_list_;   
 
-    void Rute(); 
+    bool Exist_CloseList(Cell cell);
+    void Eliminate_to_OpenList(Cell& node);    
+    void Print_List(std::list<Cell>& list);  
+
+    bool Is_Possible(Position pos);
+
+    void Generate_Obstacule();
+    void Generate_SpecialNodes();
+    void Generate_Children(Position pos);   
+
+    int Rute_Cost(Position pos); 
+    int Rectilinear_Distance(Position pos);
+    float Euclidean_Distance(Position pos);  
+    void Evaluate(Position node);
+    void Evaluate_Children(Cell& parent_node);
+    void Add_Children_to_OpenList(Cell& parent_node);     
+
+    Cell& Lower_Cost();
+    void Initate(); 
+    void Astar(Cell& node);  
+    void Resolve(Cell& node); 
+    void Edit_Terminal(); 
 }; 
 
 #endif

@@ -15,26 +15,82 @@ World::World(const int rows, const int columns) {
 }
 
 void World::Create_Board() {
+  // Size 
   board_.resize(rows_); 
   for (int i = 0; i < rows_; i++) {
     board_[i].resize(columns_); 
   }
-
-  for(int i = 0; i < rows_; i++) {
-    board_[i][0].Change_State(wall); 
-    board_[i][columns_-1].Change_State(wall); 
-  }
-  for (int j = 1; j < columns_ - 1; j++) {
-    board_[0][j].Change_State(wall); 
-    board_[rows_ - 1][j].Change_State(wall); 
+  
+  /* Asignar posiciones de las celadas */
+  for (int i = 1; i < rows_ - 1; i++) {
+    for (int j = 1; j < columns_ - 1; j++) {
+      board_[i][j].Set_Position_Cell(i,j); 
+    }
   } 
 
+  // Muros Esquinas
+  board_[0][0].Change_State(wall_eno); 
+  board_[0][columns_-1].Change_State(wall_ene); 
+  board_[rows_ - 1][0].Change_State(wall_eso); 
+  board_[rows_ - 1][columns_ - 1].Change_State(wall_ese); 
+  // Muros Verticales y Horizontales
+  for(int i = 1; i < rows_ - 1; i++) {
+    board_[i][0].Change_State(wall_v); 
+    board_[i][columns_-1].Change_State(wall_v); 
+  }
+  for (int j = 1; j < columns_ - 1; j++) {
+    board_[0][j].Change_State(wall_h); 
+    board_[rows_ - 1][j].Change_State(wall_h); 
+  } 
   return;
 }
 
-Cell World::Get_Cell(Position pos) {
+Cell& World::Get_Cell(Position pos) {
   return board_[pos.Get_x()][pos.Get_y()]; 
 }
+
+Cell& World::Get_Parent(Position pos) {
+  return Get_Cell(Get_Cell(pos).Get_Parent()); 
+}
+
+/*
+Node World::Get_Node(int id) {
+  for (int i = 1; i < rows_ - 1; i++) {
+    for (int j = 1; j < columns_ - 1; j++) {
+      if (board_[i][j].Get_Node().Get_Id() == id) {
+        return board_[i][j].Get_Node(); 
+      }
+    }
+  }
+}
+*/
+
+void World::Set_ID(Position pos, int id) {
+  Get_Cell(pos).Set_ID(id); 
+  return; 
+}
+
+void World::Set_ParentID(Position pos, int id) {
+  Get_Parent(pos).Set_ID(id);   
+  return; 
+}
+
+/*
+void World::Set_RealCost_Node(Position pos, int cost) {
+  Get_Node(pos).Set_RealCost(cost); 
+  return; 
+}
+
+void World::Set_HeuristicCost_Node(Position pos, int cost) {
+  Get_Node(pos).Set_HeuristicCost(cost); 
+  return;
+}
+
+void World::Set_EvaluateCost_Node(Position pos, int cost) {
+  Get_Node(pos).Set_EvaluateCost(cost); 
+  return; 
+} 
+*/
 
 void World::Obstacule_Random(int porcentage) {
   int area = (rows_ - 2) * (columns_ - 2); 
@@ -95,20 +151,24 @@ bool World::Are_Obstacules(Position position) {
   return false; 
 }
 
-bool World::Are_Visited(Position position) {
-  if (board_[position.Get_x()][position.Get_y()].Get_State() == visited) {
-    return true; 
+bool World::Is_Possible(Position pos) {
+  if ((pos.Get_x() > 0) && (pos.Get_y() > 0) && (pos.Get_x() <= rows_) && (pos.Get_y() <= columns_)) {
+    if (Get_Cell(pos).Get_State() != obstacule) {
+      if ((Get_Cell(pos).Get_State() != wall_h) && (Get_Cell(pos).Get_State() != wall_v)) {
+        return true; 
+      }
+    }
   }
   return false; 
 }
 
-void World::Print_World(Position object) {
+void World::Print_World(Position start, Position end) {
   std::string aux; 
   char state;
   int counter;  
 
-  board_[object.Get_x()][object.Get_y()].Activate();
-  board_[object.Get_x()][object.Get_y()].Change_State(visited);
+  board_[start.Get_x()][start.Get_y()].Change_State(start_c);
+  board_[end.Get_x()][end.Get_y()].Change_State(end_c); 
 
   for (int i = 0; i < rows_; i++) {
     for (int j = 0; j < columns_; j++) {
@@ -118,8 +178,6 @@ void World::Print_World(Position object) {
     aux.push_back('\n'); 
   }
   std::cout << aux; 
-
-  board_[object.Get_x()][object.Get_y()].Desactivate();
   return;
 }
 

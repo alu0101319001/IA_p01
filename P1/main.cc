@@ -2,11 +2,9 @@
 
 int main() {
 
-  int filas = 30, columnas = 25; 
-  unsigned int max_time = 100; 
-  int porcentage = 30;
-  int x = 10 , y = 15;
-  int z = 20 , w = 20;  
+  int filas = 20, columnas = 20; 
+  int x = 10 , y = 10;
+  int z = 1 , w = 19;  
 
   /* Entrada por consola 
   std::cout << "DATOS DE ENTRADA" << std::endl; 
@@ -28,11 +26,11 @@ int main() {
  
   Position start(x,y); 
   Position end(z,w);
-  Car taxi(start); 
   World world(filas,columnas); 
-  Simulation Game(taxi, world);
+  Simulation Game(world,start,end);
 
-  Game.Play(porcentage, max_time); 
+  Game.Play();
+  //Game.Test();  
 
   return 0; 
 }

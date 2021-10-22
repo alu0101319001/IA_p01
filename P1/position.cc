@@ -34,6 +34,30 @@ void Position::Set_Position(const int new_x, const int new_y) {
   return; 
 }
 
+Position Position::Go_Up() {
+  Position result; 
+  result.Set_Position(x_ - 1, y_); 
+  return result; 
+}
+
+Position Position::Go_Down() {
+  Position result; 
+  result.Set_Position(x_ + 1, y_); 
+  return result; 
+}
+
+Position Position::Go_Left() {
+  Position result; 
+  result.Set_Position(x_, y_ - 1); 
+  return result; 
+}
+
+Position Position::Go_Right() {
+  Position result; 
+  result.Set_Position(x_, y_ + 1); 
+  return result; 
+}
+
 Position& Position::operator= (const Position& position) {
   this->x_ = position.x_; 
   this->y_ = position.y_; 

@@ -4,7 +4,10 @@
 #include <iostream>
 #include <cassert>
 #include <vector>
+#include <list>
 #include <string>
+#include <fstream>
+#include <math.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <ctime>
@@ -22,6 +25,11 @@ class Position {
     void Set_y(const int); 
 
     void Set_Position(const int x, const int y); 
+
+    Position Go_Up(); 
+    Position Go_Down(); 
+    Position Go_Left(); 
+    Position Go_Right(); 
 
     Position& operator= (const Position& positon); 
     bool operator== (const Position& position) const; 

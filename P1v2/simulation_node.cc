@@ -21,10 +21,12 @@ SimNode::~SimNode() {
 void SimNode::Play() {
   Edit_Terminal(); 
   Generate_Obstacule();
-  //world_->Print_World(start_->Get_Position(), end_->Get_Position()); 
+  Choose_Function(); 
   Initiate(); 
   Astar(Lower_Cost());
-  world_->Print_World(start_->Get_Position(), end_->Get_Position()); 
+  world_->Print_World(start_->Get_Position(), end_->Get_Position());
+  t1 = clock(); 
+  Time();  
   system("pause"); 
   return; 
 }
@@ -41,7 +43,7 @@ void SimNode::Generate_Obstacule() {
   int porcentage = 30; 
   std::string file_name;  
   
-  std::cout << "Obstaculos --> Manual (0) - Aleatorio(1) : "; 
+  std::cout << "Obstaculos --> (0): Manual | (1): Aleatorio -->"; 
   std::cin >> obstacule; 
   if (obstacule) {
     std::cout << "Porcentaje : "; 
@@ -54,28 +56,33 @@ void SimNode::Generate_Obstacule() {
   }
   return; 
 }
+void SimNode::Choose_Function() {
+  std::cout << "Elegir Funcion Heuristica --> (0): Rectilinea  | (1): Euclidea -->"; 
+  std::cin >> ch_func_;
+  return; 
+}
 void SimNode::Initiate() {
+  t0 = clock(); 
   Evaluate(start_);
   open_.push_back(start_); 
 }
 
-Node* SimNode::Astar(Node* current_node) {
+void SimNode::Astar(Node* current_node) {
   if (Is_End(current_node)) {
-    Resolve(current_node);  
+    Resolve(current_node);
+    return;   
   } else {
-    //std::cout << "\nAstar ID: " << current_node->Get_ID() << "\n";  
     Add(close_ , current_node); 
     Generate_Children(current_node); 
-    Remove(open_ , current_node);
-    /*
-    std::cout << "\tOpen List" << std::endl; 
-    Print_List(open_); 
-    std::cout << "\tClose List" << std::endl; 
-    Print_List(close_);
-    system("pause");
-    */   
-    Astar(Lower_Cost());   
+    Remove(open_ , current_node); 
+    if (Empty_List(open_)) {
+      std::cout << "\nRESULTADO --> No se ha encontrado un camino posible\n\n"; 
+      return; 
+    } else {
+      Astar(Lower_Cost());   
+    }
   }
+  return; 
 }
 
 void SimNode::Resolve(Node* node) {
@@ -86,6 +93,12 @@ void SimNode::Resolve(Node* node) {
     world_->Get_Cell(node->Get_Position()).Activate(); 
     Resolve(node->Get_Parent()); 
   }
+  return; 
+}
+
+void SimNode::Time() {
+  double time = (double (t1-t0)/CLOCKS_PER_SEC); 
+  std::cout << "\nEXECUTION TIME: " << time << std::endl; 
   return; 
 }
 
@@ -104,10 +117,15 @@ Node* SimNode::Lower_Cost() {
   return result; 
 }
 void SimNode::Evaluate(Node * node) {
-  int rute, rectilinear, result; 
-  rute = Rute_Cost(node); 
-  rectilinear = Rectilinear(node); 
-  result = rute + rectilinear;
+  int rute; 
+  float heuristic, result; 
+  rute = Rute_Cost(node);
+  if (ch_func_) {
+    heuristic = Euclidean(node); 
+  } else {
+    heuristic = Rectilinear(node); 
+  }
+  result = rute + heuristic;
   node->Set_Cost(result); 
 }
 void SimNode::Generate_Children(Node* node) {
@@ -180,7 +198,14 @@ int SimNode::Rectilinear(Node* node) {
   result = x + y; 
   return result; 
 }
-float SimNode::Euclidean(Node* node) {}
+float SimNode::Euclidean(Node* node) {
+  float result; 
+  int x, y; 
+  x = pow((end_->Get_Position().Get_x() - node->Get_Position().Get_x()) , 2); 
+  y = pow((end_->Get_Position().Get_y() - node->Get_Position().Get_y()) , 2);
+  result = sqrt(x+y); 
+  return result;   
+}
 
 // Funciones para Generate Children
 bool SimNode::Is_Possible(Position pos) {
@@ -202,7 +227,7 @@ void SimNode::Remove(std::list<Node*>& list, Node* node) {
   }
 }
 void SimNode::Add(std::list<Node*>& list, Node* node) {
-  list.push_back(node); 
+  list.push_front(node); 
   return; 
 }
 bool SimNode::Exist(const std::list<Node*>& list, Node* node) {
@@ -222,6 +247,12 @@ bool SimNode::Exist(const std::list<Node*>& list, Position pos) {
     if (aux->Get_Position() == pos) {
       return true; 
     }
+  }
+  return false; 
+}
+bool SimNode::Empty_List(const std::list<Node*>& list) {
+  if (list.empty()) {
+    return true; 
   }
   return false; 
 }

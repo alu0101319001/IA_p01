@@ -6,7 +6,7 @@ int main() {
   int x = 1 , y = 1;
   int z = 5 , w = 5;    
 
-  /* Entrada por consola 
+  /* Entrada por consola */
   std::cout << "DATOS DE ENTRADA" << std::endl; 
   std::cout << "Filas: "; 
   std::cin >> filas; 
@@ -22,7 +22,6 @@ int main() {
   std::cin >> z;
   std::cout << "\ty: ";  
   std::cin >> w;  
-  */
  
   Position start(x,y); 
   Position end(z,w); 

@@ -19,13 +19,17 @@ class SimNode{
     std::list<Node*> open_; 
     std::list<Node*> close_; 
     int counter_id_ = 2;
+    bool ch_func_; 
+    unsigned t0,t1; 
 
     // MÉTODOS PRINCIPALES
     void Edit_Terminal(); 
-    void Generate_Obstacule(); 
+    void Generate_Obstacule();
+    void Choose_Function();  
     void Initiate(); 
-    Node* Astar(Node* node);
+    void Astar(Node* node);
     void Resolve(Node* node); 
+    void Time(); 
 
     // MÉTODOS SECUNDARIOS 
     Node* Lower_Cost(); 
@@ -46,6 +50,7 @@ class SimNode{
     void Add(std::list<Node*>& list, Node* node);
     bool Exist(const std::list<Node*>& list, Node* node); 
     bool Exist(const std::list<Node*>& list, Position pos);
+    bool Empty_List(const std::list<Node*>& list); 
     void Print_List(const std::list<Node*>& list);  
 
 

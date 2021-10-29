@@ -6,10 +6,15 @@
 
 class SimNode{
   public:
+    SimNode(); 
     SimNode(int rows, int columns, Position start, Position end); 
     ~SimNode(); 
 
+    void Create(int rows, int columns, Position start, Position end); 
+    void Eliminate(); 
     void Play();  
+    void Play_NoObstacule(); 
+    void Play_Obstacule(int porcentage); 
 
   private:
     // ATRIBUTOS 
@@ -19,17 +24,23 @@ class SimNode{
     std::list<Node*> open_; 
     std::list<Node*> close_; 
     int counter_id_ = 2;
-    bool ch_func_; 
+    bool ch_func_;
+    bool ch_dir_;  
     unsigned t0,t1; 
+    int evaluated_node_ = 0; 
+    int minimal_path_ = 0; 
 
     // MÉTODOS PRINCIPALES
     void Edit_Terminal(); 
     void Generate_Obstacule();
+    void Generate_Obstacule_Define(int porcentage); 
     void Choose_Function();  
+    void Choose_Direction(); 
     void Initiate(); 
-    void Astar(Node* node);
+    void Astar(Node* node); 
     void Resolve(Node* node); 
-    void Time(); 
+    double Time(); 
+    void Table(); 
 
     // MÉTODOS SECUNDARIOS 
     Node* Lower_Cost(); 

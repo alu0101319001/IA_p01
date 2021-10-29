@@ -58,6 +58,30 @@ Position Position::Go_Right() {
   return result; 
 }
 
+Position Position::Go_DUpRight() {
+  Position result; 
+  result.Set_Position(x_ - 1, y_ + 1); 
+  return result; 
+}
+
+Position Position::Go_DUpLeft() {
+  Position result; 
+  result.Set_Position(x_ - 1, y_ - 1); 
+  return result; 
+}
+
+Position Position::Go_DDownRight() {
+  Position result; 
+  result.Set_Position(x_ + 1, y_ + 1); 
+  return result; 
+}
+
+Position Position::Go_DDownLeft() {
+  Position result; 
+  result.Set_Position(x_ + 1,  y_ - 1); 
+  return result; 
+}
+
 Position& Position::operator= (const Position& position) {
   this->x_ = position.x_; 
   this->y_ = position.y_; 

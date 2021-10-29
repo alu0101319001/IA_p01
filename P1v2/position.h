@@ -30,6 +30,10 @@ class Position {
     Position Go_Down(); 
     Position Go_Left(); 
     Position Go_Right(); 
+    Position Go_DUpRight(); 
+    Position Go_DUpLeft(); 
+    Position Go_DDownRight(); 
+    Position Go_DDownLeft(); 
 
     Position& operator= (const Position& positon); 
     bool operator== (const Position& position) const; 

@@ -20,7 +20,7 @@ void Cell::Set_Position_Cell(int x, int y) {
 } 
 
 void Cell::Change_State(States new_state) {
-  assert(new_state >= 0 && new_state < 10); 
+  assert(new_state >= 0 && new_state < 11); 
   state_ = new_state; 
   return; 
 }
@@ -53,6 +53,8 @@ char Cell::Print_Cell() {
   } else if (Is_Used()) {
     char ob = 169; 
     return 'x'; 
+  } else if (state_ == eval) {
+    return '#'; 
   } else if (state_ == empty) {
     return ' '; 
   } else if (state_ == obstacule) {

@@ -3,7 +3,7 @@
 World::World() {}
 
 World::World(const int rows, const int columns) {
-  if ((rows > 500) || (columns > 500) || (rows < 0) || (columns < 0)) {
+  if ((rows > 1000) || (columns > 1000) || (rows < 0) || (columns < 0)) {
     std::cout << "Error : size not allowed" << std::endl;
     exit(1);  
   } else {

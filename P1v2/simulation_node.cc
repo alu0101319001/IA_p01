@@ -137,10 +137,10 @@ void SimNode::Astar(Node* current_node) {
     Add(close_ , current_node); 
     Generate_Children(current_node); 
     Remove(open_ , current_node); 
-    if ((Empty_List(open_)) || (Time() > 70)) {
+    if ((Empty_List(open_)) || (Time() > 30)) {
       std::cout << "\nRESULTADO --> No se ha encontrado un camino posible\n\n"; 
       return; 
-    } else {
+    } else { 
       Astar(Lower_Cost());   
     }
   } 

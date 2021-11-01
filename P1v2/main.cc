@@ -12,12 +12,12 @@ int main() {
   int opcion, definicion; 
   Position start(10,10); 
   Position end(50,50); 
-  Position end_small(80,80); 
-  Position end_big(125,125); 
+  Position end_small(100,100); 
+  Position end_big(200,200); 
   SimNode* Game; 
 
   while (opcion != 5) {
-    system("clear"); 
+    system("cls"); 
     std::cout << "MENU" << std::endl; 
     std::cout << "--> Opcion 1: Simulacion Estandar\n"; 
     std::cout << "--> Opcion 2: Escenario - Sin Obstáculos\n"; 
@@ -55,7 +55,7 @@ int main() {
       break;
     
     case 2: 
-      system("clear"); 
+      system("cls"); 
       std::cout << "0 - Escenario: Sin Obstaculos - Grande\n"; 
       std::cout << "1 - Escenario: Sin Obstaculos - Pequeno\n"; 
       std::cout << "Elección: "; 
@@ -70,7 +70,7 @@ int main() {
       break; 
     
     case 3: 
-      system("clear"); 
+      system("cls"); 
       std::cout << "0 - Escenario: Obstaculos - Pequeño - 25%\n"; 
       std::cout << "1 - Escenario: Obstaculos - Pequeño - 50%\n";
       std::cout << "2 - Escenario: Obstaculos - Pequeño - 80%\n";
@@ -146,8 +146,8 @@ int main() {
       system("pause");  
       std::cout << "####################################" << std::endl;
       std::cout << "Escenario 7: Sin Obstaculos - Grande - Euclidea - 4 direcciones" << std::endl; 
-      Game = new SimNode(big_rows, big_columns, start, end_big); 
-      Game->Play_Experimental(0,0,1,0);
+      //Game = new SimNode(big_rows, big_columns, start, end_big); 
+      //Game->Play_Experimental(0,0,1,0);
       system("pause");  
       std::cout << "####################################" << std::endl;
       std::cout << "Escenario 8: Sin Obstaculos - Grande - Euclidea - 8 direcciones" << std::endl; 
@@ -246,8 +246,8 @@ int main() {
       system("pause"); 
       std::cout << "####################################" << std::endl;
       std::cout << "Escenario 27: Obstaculos - 25 - Grande - Euclidea - 4 direcciones" << std::endl; 
-      Game = new SimNode(big_rows, big_columns, start, end_big); 
-      Game->Play_Experimental(1,25,1,0);
+      //Game = new SimNode(big_rows, big_columns, start, end_big); 
+      //Game->Play_Experimental(1,25,1,0);
       system("pause"); 
       std::cout << "####################################" << std::endl;
       std::cout << "Escenario 28: Obstaculos - 50 - Grande - Euclidea - 4 direcciones" << std::endl; 
@@ -288,6 +288,6 @@ int main() {
 void Edit_Terminal() {
   system("COLOR F"); 
   system("MODE 1000,1000");
-  system("clear");   
+  system("cls");   
   return; 
 }

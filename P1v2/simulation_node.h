@@ -31,6 +31,7 @@ class SimNode{
     unsigned t0,t1; 
     int evaluated_node_ = 0; 
     int minimal_path_ = 0; 
+    int max_size_open_ = 100; 
 
     // MÉTODOS PRINCIPALES
     void Edit_Terminal(); 

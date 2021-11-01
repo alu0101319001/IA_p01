@@ -11,11 +11,12 @@ SimNode::SimNode(int rows, int columns, Position start, Position end) {
   end_ = new Node(id_end, end);  
 }
 SimNode::~SimNode() {
+  //delete start_;  
+  delete end_;  
   delete world_;
-  delete start_; 
-  delete end_; 
-  open_.clear(); 
   close_.clear();  
+  open_.clear(); 
+  std::cout << "Delete Complete" << std::endl; 
 }
 
 void SimNode::Create(int rows, int columns, Position start, Position end) {
@@ -71,11 +72,22 @@ void SimNode::Play_Obstacule(int porcentage) {
   return; 
 }
 
+void SimNode::Play_Experimental(bool obstacule, int porcentage, bool function, bool direction) {
+  if (obstacule) {
+    Generate_Obstacule_Define(porcentage); 
+  }
+  ch_func_ = function; 
+  ch_dir_ = direction; 
+  Initiate(); 
+  Astar(Lower_Cost()); 
+  Table(); 
+  return;   
+}
+
 // Métodos Principales 
 void SimNode::Edit_Terminal() {
   system("COLOR F"); 
-  system("MODE 1000,1000");
-  system("cls");  
+  system("MODE 1000,1000");  
   return; 
 }
 void SimNode::Generate_Obstacule() {
@@ -117,7 +129,7 @@ void SimNode::Initiate() {
   open_.push_back(start_);  
 }
 
-void SimNode::Astar(Node* current_node) {
+void SimNode::Astar(Node* current_node) { 
   if (Is_End(current_node)) {
     Resolve(current_node);
     return;   
@@ -125,13 +137,40 @@ void SimNode::Astar(Node* current_node) {
     Add(close_ , current_node); 
     Generate_Children(current_node); 
     Remove(open_ , current_node); 
-    if (Empty_List(open_)) {
+    if ((Empty_List(open_)) || (Time() > 70)) {
       std::cout << "\nRESULTADO --> No se ha encontrado un camino posible\n\n"; 
       return; 
     } else {
       Astar(Lower_Cost());   
     }
+  } 
+  return; 
+}
+void SimNode::Astar_Develop(Node* current_node) {
+  Node* min; 
+  if (Is_End(current_node)) {
+    Resolve(current_node);
+    return;   
+  } else {
+    std::cout << "Astar ID: " << current_node->Get_ID() << std::endl; 
+    Add(close_ , current_node); 
+    Generate_Children(current_node); 
+    Remove(open_ , current_node); 
+    std::cout << "\tOpen List: \n"; 
+    Print_List(open_); 
+    std::cout << "\tClose List: \n"; 
+    Print_List(close_); 
+    system("pause"); 
+    if (Empty_List(open_)) {
+      std::cout << "\nRESULTADO --> No se ha encontrado un camino posible\n\n"; 
+      return; 
+    } else {
+      std::cout << "Para antes del nuevo Astar" << std::endl;
+      min = Lower_Cost();  
+      Astar_Develop(min);   
+    }
   }
+  delete min; 
   return; 
 }
 
@@ -157,27 +196,33 @@ void SimNode::Table() {
   std::cout << "RESULTS" << std::endl; 
   std::cout << "\tNodos explorados: " << evaluated_node_ << std::endl; 
   std::cout << "\tLongitud del camino minimo: " << minimal_path_ << std::endl; 
-  std::cout << "\tTiempo de ejecución: " << Time() << std::endl; 
+  std::cout << "\tTiempo de ejecucion: " << Time() << std::endl; 
   return; 
 }
 
 // Métodos Secundarios 
 Node* SimNode::Lower_Cost() {
-  float min = 999999;
+  double min = INFINITY;
   Node* aux; 
-  Node* result;   
+  Node* result; 
+  int count = 0, tope = open_.size();    
   for (auto it = open_.begin(); it != open_.end(); ++it) {
     aux = *it; 
     if (aux->Get_Cost() < min) {
       min = aux->Get_Cost();
       result = *it;  
+    } else if ((aux->Get_Cost() == min) && (count > tope)) {
+      min_ = result; 
+      return result;  
     }
+    count++; 
   }
+  min_ = result; 
   return result; 
 }
 void SimNode::Evaluate(Node * node) {
   int rute; 
-  float heuristic, result; 
+  double heuristic, result; 
   rute = Rute_Cost(node);
   if (ch_func_) {
     heuristic = Euclidean(node); 
@@ -201,7 +246,9 @@ void SimNode::Generate_Children(Node* node) {
     child->Set_Parent(node); 
     node->Add_Child(child); 
     Evaluate(child); 
-    Add(open_ , child); 
+    if (!Collision(child)) {
+      Add(open_ , child); 
+    } 
   }
   // Moverse Derecha
   move = node->Get_Position().Go_Right(); 
@@ -211,7 +258,9 @@ void SimNode::Generate_Children(Node* node) {
     child->Set_Parent(node); 
     node->Add_Child(child); 
     Evaluate(child); 
-    Add(open_ , child); 
+    if (!Collision(child)) {
+      Add(open_ , child);  
+    }
   }
   // Moverse Abajo
   move = node->Get_Position().Go_Down(); 
@@ -221,7 +270,9 @@ void SimNode::Generate_Children(Node* node) {
     child->Set_Parent(node); 
     node->Add_Child(child); 
     Evaluate(child); 
-    Add(open_ , child); 
+    if (!Collision(child)) {
+      Add(open_ , child); 
+    } 
   }
   // Moverse Izquierda
   move = node->Get_Position().Go_Left(); 
@@ -231,7 +282,9 @@ void SimNode::Generate_Children(Node* node) {
     child->Set_Parent(node); 
     node->Add_Child(child); 
     Evaluate(child); 
-    Add(open_ , child); 
+    if (!Collision(child)) {
+      Add(open_ , child); 
+    } 
   }
 
   // Diagonales 
@@ -244,7 +297,9 @@ void SimNode::Generate_Children(Node* node) {
       child->Set_Parent(node); 
       node->Add_Child(child); 
       Evaluate(child); 
-      Add(open_, child); 
+      if (!Collision(child)) {
+      Add(open_ , child); 
+      } 
     }
     // Arriba Izquierda
     move = node->Get_Position().Go_DUpLeft(); 
@@ -254,7 +309,9 @@ void SimNode::Generate_Children(Node* node) {
       child->Set_Parent(node); 
       node->Add_Child(child); 
       Evaluate(child); 
-      Add(open_, child); 
+      if (!Collision(child)) {
+      Add(open_ , child); 
+      } 
     }
     // Abajo Derecha 
     move = node->Get_Position().Go_DDownRight(); 
@@ -264,7 +321,9 @@ void SimNode::Generate_Children(Node* node) {
       child->Set_Parent(node); 
       node->Add_Child(child); 
       Evaluate(child); 
-      Add(open_, child); 
+      if (!Collision(child)) {
+      Add(open_ , child); 
+      } 
     }
     // Abajo Izquierda
     move = node->Get_Position().Go_DDownLeft(); 
@@ -274,7 +333,9 @@ void SimNode::Generate_Children(Node* node) {
       child->Set_Parent(node); 
       node->Add_Child(child); 
       Evaluate(child); 
-      Add(open_, child); 
+      if (!Collision(child)) {
+      Add(open_ , child); 
+      } 
     }
   }
 }
@@ -283,6 +344,19 @@ bool SimNode::Is_End(Node* node) {
   if (end_->Get_Position() == node->Get_Position()) {
     return true; 
   } 
+  return false; 
+}
+
+bool SimNode::Collision(Node* node) {
+  Node* aux; 
+  for (auto it = open_.begin(); it != open_.end(); ++it) {
+    aux = *it; 
+    if ((aux->Get_Position() == node->Get_Position()) && (aux->Get_Parent()->Get_Position() == node->Get_Parent()->Get_Position())) {
+      if (aux->Get_Cost() > min_->Get_Cost()) {
+        return true; 
+      } 
+    }
+  }
   return false; 
 }
 
@@ -305,12 +379,15 @@ int SimNode::Rectilinear(Node* node) {
   result = x + y; 
   return result; 
 }
-float SimNode::Euclidean(Node* node) {
-  float result; 
-  int x, y; 
-  x = pow((end_->Get_Position().Get_x() - node->Get_Position().Get_x()) , 2); 
-  y = pow((end_->Get_Position().Get_y() - node->Get_Position().Get_y()) , 2);
-  result = sqrt(x+y); 
+double SimNode::Euclidean(Node* node) {
+  double result; 
+  double x, y;
+  x = (end_->Get_Position().Get_x()) - (node->Get_Position().Get_x()); 
+  y = (end_->Get_Position().Get_y()) - (node->Get_Position().Get_y()); 
+  x = pow(x,2); 
+  y = pow(y,2); 
+  result = x + y; 
+  result = sqrt(result); 
   return result;   
 }
 

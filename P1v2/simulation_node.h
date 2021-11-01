@@ -15,12 +15,14 @@ class SimNode{
     void Play();  
     void Play_NoObstacule(); 
     void Play_Obstacule(int porcentage); 
+    void Play_Experimental(bool obstacule, int porcentage, bool function, bool direction); 
 
   private:
     // ATRIBUTOS 
     World* world_; 
     Node* start_; 
-    Node* end_; 
+    Node* end_;
+    Node* min_;  
     std::list<Node*> open_; 
     std::list<Node*> close_; 
     int counter_id_ = 2;
@@ -34,10 +36,11 @@ class SimNode{
     void Edit_Terminal(); 
     void Generate_Obstacule();
     void Generate_Obstacule_Define(int porcentage); 
-    void Choose_Function();  
-    void Choose_Direction(); 
+    void Choose_Function(); 
+    void Choose_Direction();  
     void Initiate(); 
     void Astar(Node* node); 
+    void Astar_Develop(Node* node); 
     void Resolve(Node* node); 
     double Time(); 
     void Table(); 
@@ -47,11 +50,12 @@ class SimNode{
     void Evaluate(Node* node); 
     void Generate_Children(Node* node);
     bool Is_End(Node* node); 
+    bool Collision(Node* node); 
 
     // FUNCIONES PARA EVALUATE
     int Rute_Cost(Node* node); 
     int Rectilinear(Node* node); 
-    float Euclidean(Node* node);
+    double Euclidean(Node* node);
 
     // FUNCIONES PARA GENERATE CHILDREN
     bool Is_Possible(Position pos);  

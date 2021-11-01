@@ -22,7 +22,7 @@ Node::~Node() {
 int Node::Get_ID() {
   return id_; 
 }
-float Node::Get_Cost() {
+double Node::Get_Cost() {
   return cost_; 
 }
 Node* Node::Get_Parent() {
@@ -42,7 +42,7 @@ Position Node::Get_Position() {
 void Node::Set_ID(int id) {
   id_ = id; 
 }
-void Node::Set_Cost(float cost) {
+void Node::Set_Cost(double cost) {
   cost_ = cost; 
 }
 void Node::Set_Parent(Node* parent) {

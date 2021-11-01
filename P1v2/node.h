@@ -11,7 +11,7 @@ class Node {
 
     //Getters
     int Get_ID(); 
-    float Get_Cost();
+    double Get_Cost();
     Node* Get_Parent(); 
     std::list<Node*> Get_ChildrenList(); 
     Cell* Get_CellRelation();
@@ -19,7 +19,7 @@ class Node {
 
     //Setters
     void Set_ID(int id); 
-    void Set_Cost(float cost); 
+    void Set_Cost(double cost); 
     void Set_Parent(Node* parent); 
     void Add_Child(Node* child); 
     void Set_Cell(Cell* cell); 
@@ -30,7 +30,7 @@ class Node {
 
   private: 
     int id_; 
-    float cost_; 
+    double cost_; 
     Node* parent_; 
     std::list<Node*> children_; 
     Cell* relation_cell_; 

@@ -1,18 +1,20 @@
 #include "simulation_node.h"
 
+void Edit_Terminal(); 
+
 int main() {
 
   int filas = 5, columnas = 5; 
   int x = 1 , y = 1;
   int z = 5 , w = 5; 
-  int small_rows = 250, small_columns = 250; 
-  int big_rows = 500, big_columns= 500;   
+  int small_rows = 100, small_columns = 100; 
+  int big_rows = 200, big_columns= 200;   
   int opcion, definicion; 
-  Position start(1,1); 
-  Position end(100,150); 
-  Position end_small(250,250); 
-  Position end_big(500,500); 
-  SimNode Game; 
+  Position start(10,10); 
+  Position end(50,50); 
+  Position end_small(80,80); 
+  Position end_big(125,125); 
+  SimNode* Game; 
 
   while (opcion != 5) {
     system("clear"); 
@@ -47,9 +49,9 @@ int main() {
       std::cin >> w;  
       start.Set_Position(x,y);  
       end.Set_Position(z,w);
-      Game.Create(filas,columnas,start,end);
-      Game.Play(); 
-      Game.Eliminate(); 
+      
+      Game = new SimNode(filas,columnas,start,end);
+      Game->Play();  
       break;
     
     case 2: 
@@ -59,13 +61,11 @@ int main() {
       std::cout << "Elección: "; 
       std::cin >> definicion; 
       if (definicion) {
-        Game.Create(small_rows, small_columns, start, end_small); 
-        Game.Play_NoObstacule(); 
-        Game.Eliminate(); 
+        Game = new SimNode(small_rows, small_columns, start, end_small);  
+        Game->Play_NoObstacule(); 
       } else {
-        Game.Create(big_rows, big_columns, start, end_big); 
-        Game.Play_NoObstacule(); 
-        Game.Eliminate(); 
+        Game = new SimNode(big_rows, big_columns, start, end_big); 
+        Game->Play_NoObstacule(); 
       }
       break; 
     
@@ -83,34 +83,28 @@ int main() {
       switch (definicion)
       {
       case 0:
-        Game.Create(small_rows, small_columns, start, end_small);
-        Game.Play_Obstacule(25);
-        Game.Eliminate(); 
+        Game = new SimNode(small_rows, small_columns, start, end_small);
+        Game->Play_Obstacule(25); 
         break;
       case 1: 
-        Game.Create(small_rows, small_columns, start, end_small);
-        Game.Play_Obstacule(50);
-        Game.Eliminate(); 
+        Game = new SimNode(small_rows, small_columns, start, end_small);
+        Game->Play_Obstacule(50); 
         break;
       case 2: 
-        Game.Create(small_rows, small_columns, start, end_small);
-        Game.Play_Obstacule(80);
-        Game.Eliminate(); 
+        Game = new SimNode(small_rows, small_columns, start, end_small);
+        Game->Play_Obstacule(80); 
         break;
       case 3: 
-        Game.Create(big_rows,big_columns, start, end_big);
-        Game.Play_Obstacule(25);
-        Game.Eliminate(); 
+        Game = new SimNode(big_rows,big_columns, start, end_big);
+        Game->Play_Obstacule(25); 
         break;
       case 4: 
-        Game.Create(big_rows,big_columns, start, end_big);
-        Game.Play_Obstacule(50);
-        Game.Eliminate(); 
+        Game = new SimNode(big_rows,big_columns, start, end_big);
+        Game->Play_Obstacule(50); 
         break;
       case 5: 
-        Game.Create(big_rows,big_columns, start, end_big);
-        Game.Play_Obstacule(80);
-        Game.Eliminate(); 
+        Game = new SimNode(big_rows,big_columns, start, end_big);
+        Game->Play_Obstacule(80); 
         break;      
       default:
         break;
@@ -118,7 +112,168 @@ int main() {
       break;
 
     case 4: 
-
+      Edit_Terminal(); 
+      std::cout << "PRUEBA EXPERIMENTAL" << std::endl; 
+      std::cout << "####################################" << std::endl; 
+      std::cout << "Escenario 1: Sin Obstaculos - Pequeno - Rectilinea - 4 direcciones" << std::endl; 
+      Game = new SimNode(small_rows, small_columns, start, end_small); 
+      Game->Play_Experimental(0,0,0,0); 
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 2: Sin Obstaculos - Pequeno - Rectilinea - 8 direcciones" << std::endl; 
+      Game = new SimNode(small_rows, small_columns, start, end_small); 
+      Game->Play_Experimental(0,0,0,1);
+      system("pause");  
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 3: Sin Obstaculos - Pequeno - Euclidea - 4 direcciones" << std::endl; 
+      Game = new SimNode(small_rows, small_columns, start, end_small); 
+      Game->Play_Experimental(0,0,1,0);
+      system("pause");  
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 4: Sin Obstaculos - Pequeno - Euclidea - 8 direcciones" << std::endl; 
+      Game = new SimNode(small_rows, small_columns, start, end_small); 
+      Game->Play_Experimental(0,0,1,1);
+      system("pause");  
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 5: Sin Obstaculos - Grande - Rectilinea - 4 direcciones" << std::endl; 
+      Game = new SimNode(big_rows, big_columns, start, end_big); 
+      Game->Play_Experimental(0,0,0,0);
+      system("pause");  
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 6: Sin Obstaculos - Grande - Rectilinea - 8 direcciones" << std::endl; 
+      Game = new SimNode(big_rows, big_columns, start, end_big); 
+      Game->Play_Experimental(0,0,0,1);
+      system("pause");  
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 7: Sin Obstaculos - Grande - Euclidea - 4 direcciones" << std::endl; 
+      Game = new SimNode(big_rows, big_columns, start, end_big); 
+      Game->Play_Experimental(0,0,1,0);
+      system("pause");  
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 8: Sin Obstaculos - Grande - Euclidea - 8 direcciones" << std::endl; 
+      Game = new SimNode(big_rows, big_columns, start, end_big); 
+      Game->Play_Experimental(0,0,1,1);
+      system("pause");  
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 9: Obstaculos - 25 - Pequeno - Rectilinea - 4 direcciones" << std::endl; 
+      Game = new SimNode(small_rows, small_columns, start, end_small); 
+      Game->Play_Experimental(1,25,0,0); 
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 10: Obstaculos - 50 - Pequeno - Rectilinea - 4 direcciones" << std::endl; 
+      Game = new SimNode(small_rows, small_columns, start, end_small); 
+      Game->Play_Experimental(1,50,0,0);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 11: Obstaculos - 80 - Pequeno - Rectilinea - 4 direcciones" << std::endl; 
+      Game = new SimNode(small_rows, small_columns, start, end_small); 
+      Game->Play_Experimental(1,80,0,0);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 12: Obstaculos - 25 - Pequeno - Rectilinea - 8 direcciones" << std::endl; 
+      Game = new SimNode(small_rows, small_columns, start, end_small); 
+      Game->Play_Experimental(1,25,0,1);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 13: Obstaculos - 50 - Pequeno - Rectilinea - 8 direcciones" << std::endl; 
+      Game = new SimNode(small_rows, small_columns, start, end_small); 
+      Game->Play_Experimental(1,50,0,1);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 14: Obstaculos - 80 - Pequeno - Rectilinea - 8 direcciones" << std::endl; 
+      Game = new SimNode(small_rows, small_columns, start, end_small); 
+      Game->Play_Experimental(1,80,0,1);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 15: Obstaculos - 25 - Pequeno - Euclidea - 4 direcciones" << std::endl; 
+      Game = new SimNode(small_rows, small_columns, start, end_small); 
+      Game->Play_Experimental(1,25,1,0);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 16: Obstaculos - 50 - Pequeno - Euclidea - 4 direcciones" << std::endl; 
+      Game = new SimNode(small_rows, small_columns, start, end_small); 
+      Game->Play_Experimental(1,50,1,0);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 17: Obstaculos - 80 - Pequeno - Euclidea - 4 direcciones" << std::endl; 
+      Game = new SimNode(small_rows, small_columns, start, end_small); 
+      Game->Play_Experimental(1,80,1,0);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 18: Obstaculos - 25 - Pequeno - Euclidea - 8 direcciones" << std::endl; 
+      Game = new SimNode(small_rows, small_columns, start, end_small); 
+      Game->Play_Experimental(1,25,1,1);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 19: Obstaculos - 50 - Pequeno - Euclidea - 8 direcciones" << std::endl; 
+      Game = new SimNode(small_rows, small_columns, start, end_small); 
+      Game->Play_Experimental(1,50,1,1);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 20: Obstaculos - 80 - Pequeno - Euclidea - 8 direcciones" << std::endl; 
+      Game = new SimNode(small_rows, small_columns, start, end_small); 
+      Game->Play_Experimental(1,80,1,1);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 21: Obstaculos - 25 - Grande - Rectilinea - 4 direcciones" << std::endl; 
+      Game = new SimNode(big_rows, big_columns, start, end_big); 
+      Game->Play_Experimental(1,25,0,0);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 22: Obstaculos - 50 - Grande - Rectilinea - 4 direcciones" << std::endl; 
+      Game = new SimNode(big_rows, big_columns, start, end_big); 
+      Game->Play_Experimental(1,50,0,0);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 23: Obstaculos - 80 - Grande - Rectilinea - 4 direcciones" << std::endl; 
+      Game = new SimNode(big_rows, big_columns, start, end_big); 
+      Game->Play_Experimental(1,80,0,0);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 24: Obstaculos - 25 - Grande - Rectilinea - 8 direcciones" << std::endl; 
+      Game = new SimNode(big_rows, big_columns, start, end_big); 
+      Game->Play_Experimental(1,25,0,1);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 25: Obstaculos - 50 - Grande - Rectilinea - 8 direcciones" << std::endl; 
+      Game = new SimNode(big_rows, big_columns, start, end_big); 
+      Game->Play_Experimental(1,50,0,1);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 26: Obstaculos - 80 - Grande - Rectilinea - 8 direcciones" << std::endl; 
+      Game = new SimNode(big_rows, big_columns, start, end_big); 
+      Game->Play_Experimental(1,80,0,1);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 27: Obstaculos - 25 - Grande - Euclidea - 4 direcciones" << std::endl; 
+      Game = new SimNode(big_rows, big_columns, start, end_big); 
+      Game->Play_Experimental(1,25,1,0);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 28: Obstaculos - 50 - Grande - Euclidea - 4 direcciones" << std::endl; 
+      Game = new SimNode(big_rows, big_columns, start, end_big); 
+      Game->Play_Experimental(1,50,1,0);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 29: Obstaculos - 80 - Grande - Euclidea - 4 direcciones" << std::endl; 
+      Game = new SimNode(big_rows, big_columns, start, end_big); 
+      Game->Play_Experimental(1,80,1,0);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 30: Obstaculos - 25 - Grande - Euclidea - 8 direcciones" << std::endl; 
+      Game = new SimNode(big_rows, big_columns, start, end_big); 
+      Game->Play_Experimental(1,25,1,1);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 31: Obstaculos - 50 - Grande - Euclidea - 8 direcciones" << std::endl; 
+      Game = new SimNode(big_rows, big_columns, start, end_big); 
+      Game->Play_Experimental(1,50,1,1);
+      system("pause"); 
+      std::cout << "####################################" << std::endl;
+      std::cout << "Escenario 32: Obstaculos - 80 - Grande - Euclidea - 8 direcciones" << std::endl; 
+      Game = new SimNode(big_rows, big_columns, start, end_big); 
+      Game->Play_Experimental(1,80,1,1);
+      system("pause"); 
       break; 
     
     default:
@@ -126,4 +281,13 @@ int main() {
     }
   }
 
+  delete Game; 
+  return 0; 
+}
+
+void Edit_Terminal() {
+  system("COLOR F"); 
+  system("MODE 1000,1000");
+  system("clear");   
+  return; 
 }
